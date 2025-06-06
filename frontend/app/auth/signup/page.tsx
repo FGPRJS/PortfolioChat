@@ -87,7 +87,9 @@ export default function SignUp(){
                       required/>
                   </label>
                   <p className={getInputValidationClassNames(isValidNickname)}>
-                    Write valid nickname
+                    Write valid nickname<br/>
+                    - No spaces allowed<br/>
+                    - Write 2 characters at least<br/>
                   </p>
                 </div>
                 <div>
@@ -99,7 +101,11 @@ export default function SignUp(){
                       required/>
                   </label>
                   <p className={getInputValidationClassNames(isValidPassword)}>
-                    Write valid password
+                    Write valid password <br/>
+                    - Write 8 characters at least <br/>
+                    - Write 1 upper-case characters at least <br/>
+                    - Write 1 lower-case characters at least <br/>
+                    - Write 1 Special characters(!$...) at least <br/>
                   </p>
                 </div>
                 <div>
