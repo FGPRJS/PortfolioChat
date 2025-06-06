@@ -4,37 +4,57 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react"
 
 export default function SignUp(){
+  //#region EMAIL
   const [email, setEmail] = useState<string>();
-  const [emailClassNames, setEmailClassNames] = useState<string>(getInputClassNames(true));
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
   useEffect(() => {
     if(!email) return;
     const regex = /^(?=.{4,})[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = regex.test(email);
-    setEmailClassNames(getInputClassNames(isValid));
+    setIsValidEmail(regex.test(email));
   }, [email]);
+  //#endregion
 
+  //#region NICKNAME
+  const [nickname, setNickname] = useState<string>();
+  const [isValidNickname, setIsValidNickname] = useState<boolean>(true);
+  useEffect(() => {
+    if(!nickname) return;
+    const regex = /^[\p{L}\p{N}]{2,}$/u;
+    setIsValidNickname(regex.test(nickname));
+  }, [nickname]);
+  //#endregion
+
+  //#region PASSWORD
   const [password, setPassword] = useState<string>();
-  const [passwordClassNames, setpasswordClassNames] = useState<string>(getInputClassNames(true));
+  const [isValidPassword, setIsValidPassword] = useState<boolean>(true);
   useEffect(() => {
     if(!password) return;
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.{8,}).+$/;
-    const isValid =  regex.test(password);
-    setpasswordClassNames(getInputClassNames(isValid));
+    setIsValidPassword(regex.test(password));
   }, [password]);
+  //#endregion
 
+  //#region CONFIRM PASSWORD
   const [confirmPassword,setConfirmPassword] = useState<string>();
-  const [confirmPasswordClassNames, setconfirmPasswordClassNames] = useState<string>(getInputClassNames(true));
+  const [isValidConfirmPassword, setIsValidConfirmPassword] = useState<boolean>(true);
   useEffect(() => {
     if(!confirmPassword) return;
-    const isValid = password === confirmPassword;
-    setconfirmPasswordClassNames(getInputClassNames(isValid));
+    setIsValidConfirmPassword(password === confirmPassword);
   }, [confirmPassword]);
+  //#endregion
 
 
   function getInputClassNames(isValid : boolean){
     return clsx(
       'input',
       isValid ? 'input-ghost' : 'input-error'
+    )
+  }
+
+  function getInputValidationClassNames(isValid : boolean){
+    return clsx(
+      'text-sm', 'my-2', 'text-error',
+      isValid ? 'hidden' : ''
     )
   }
 
@@ -47,38 +67,50 @@ export default function SignUp(){
               <h2 className="text-xl font-bold">Sign up</h2>
               <div className="space-y-2">
                 <div>
-                  <label className={emailClassNames}>
+                  <label className={getInputClassNames(isValidEmail)}>
                     <input
                       type="email"
                       placeholder="Email"
                       onChange={(ev) => setEmail(ev.target.value)}
                       required/>
                   </label>
-                  <p className="hidden">
+                  <p className={getInputValidationClassNames(isValidEmail)}>
                     Write valid email
                   </p>
                 </div>
                 <div>
-                  <label className={passwordClassNames}>
+                  <label className={getInputClassNames(isValidNickname)}>
+                    <input
+                      type="text"
+                      placeholder="Nickname"
+                      onChange={(ev) => setNickname(ev.target.value)}
+                      required/>
+                  </label>
+                  <p className={getInputValidationClassNames(isValidNickname)}>
+                    Write valid nickname
+                  </p>
+                </div>
+                <div>
+                  <label className={getInputClassNames(isValidPassword)}>
                     <input 
                       type="password"
                       placeholder="Password"
                       onChange={(ev) => setPassword(ev.target.value)}
                       required/>
                   </label>
-                  <p className="hidden">
+                  <p className={getInputValidationClassNames(isValidPassword)}>
                     Write valid password
                   </p>
                 </div>
                 <div>
-                  <label className={confirmPasswordClassNames}>
+                  <label className={getInputClassNames(isValidConfirmPassword)}>
                     <input 
                       type="password"
                       placeholder="Confirm Password"
                       onChange={(ev) => setConfirmPassword(ev.target.value)}
                       required/>
                   </label>
-                  <p className="hidden">
+                  <p className={getInputValidationClassNames(isValidConfirmPassword)}>
                     Write same password
                   </p>
                 </div>
